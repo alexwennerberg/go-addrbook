@@ -9,8 +9,24 @@ import (
 	"os"
 )
 
+// Map of field names to human readable names
+
+// Map of human readable names to fields
+
 type Card struct {
 	vcardData *vcard.Card
+}
+
+func (c *Card) prettyPrint() string {
+	card := *c.vcardData
+	for k, v := range card {
+		fmt.Print(k, " ")
+		for _, n := range v {
+			fmt.Println(n.Value)
+		}
+	}
+	fmt.Println("")
+	return ""
 }
 
 func (c *Card) toCSV() string {
@@ -52,7 +68,7 @@ func main() {
 		fmt.Println(*filename)
 		cards := parseCards(*filename)
 		for _, card := range cards {
-			fmt.Println(card.toCSV())
+			card.prettyPrint()
 		}
 	} else {
 		// read from stdin
